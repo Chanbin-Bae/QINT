@@ -34,7 +34,7 @@ def load_lists_from_file(filename):
 
 def assigned_encoding_info ():
     global encoding_bit_hop,encoding_level_hop, hop_interval
-    file_path = "/home/mncgpu5/chanbin/QINT_final/rule/save_information8_fat-tree.txt"
+    file_path = "~/QINT/rule/save_information8_fat-tree.txt"
     encoding_info = load_lists_from_file(file_path)
     hop_encoding_bit = encoding_info[0]
     for bit in hop_encoding_bit:
