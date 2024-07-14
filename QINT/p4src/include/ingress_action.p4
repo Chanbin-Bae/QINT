@@ -1,7 +1,6 @@
 action int_set_source () {
 	meta.source = true;
 	hdr.ipv4.dscp = INT;
-	hdr.ipv4.totalLen = hdr.ipv4.totalLen + 4;
 }	
 
 action set_switch_id(bit<32> switch_id){
