@@ -94,7 +94,7 @@ def generate_packet_distribution():
             src_ip = "10.0.4.7"
         if args.host == "h8":
             src_ip = "10.0.4.8"
-        file_path = "/home/mncgpu5/chanbin/QINT_final/Packet/Traffic/fb10_b1_h8.csv"
+        file_path = "~/QINT/Packet/Traffic/fb10_b1_h8.csv"
     else:
         if args.host == "h1":
             src_ip = "10.0.1.1"
@@ -104,7 +104,7 @@ def generate_packet_distribution():
             src_ip = "10.0.7.3"
         if args.host == "h4":
             src_ip = "10.0.11.4"
-        file_path = "/home/mncgpu5/chanbin/QINT_final/Packet/Traffic/wb20_b1_h4.csv"
+        file_path = "~/QINT/Packet/Traffic/wb20_b1_h4.csv"
 
     prev_packet_generation =[]
     with open(file_path, 'r') as csvfile:
