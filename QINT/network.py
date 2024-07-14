@@ -155,7 +155,7 @@ def main():
     processes = []
     if args.topo == "internet2":    
         for i in range(0,8):
-            command1 = 'python3 /home/mncgpu5/chanbin/QINT_final/Packet/send_and_receive.py --topo internet2 --host "h{0}"'.format((i+1))
+            command1 = 'python3 ~/QINT/Packet/send_and_receive.py --topo internet2 --host "h{0}"'.format((i+1))
             commands.append(command1)
         process1 = Process(target=run_command_on_host, args=(net.net.get('h1'), commands[0]))
         process1.start()
@@ -191,7 +191,7 @@ def main():
 
     if args.topo == "fat-tree":    
         for i in range(0,8):
-            command = 'python3 /home/mncgpu5/chanbin/QINT_final/Packet/send_and_receive.py --topo fat-tree --host "h{0}"'.format((i+1))
+            command = 'python3 ~/QINT/Packet/send_and_receive.py --topo fat-tree --host "h{0}"'.format((i+1))
             commands.append(command)
         process1 = Process(target=run_command_on_host, args=(net.net.get('h1'), commands[0]))
         process1.start()
