@@ -1,0 +1,2523 @@
+{
+  "header_types" : [
+    {
+      "name" : "scalars_0",
+      "id" : 0,
+      "fields" : [
+        ["tmp", 32, false],
+        ["encoding_bit_hop_0", 32, false],
+        ["encoding_level_hop_0", 32, false],
+        ["cond", 1, false],
+        ["metadata.switch_id", 32, false],
+        ["metadata.source", 1, false],
+        ["metadata.encoding_bit_hop", 32, false],
+        ["metadata.encoding_level_hop", 32, false],
+        ["metadata.check_hop", 1, false],
+        ["metadata.check_space_hop", 1, false],
+        ["metadata.space_hop", 2, false],
+        ["metadata.number_hop", 12, false],
+        ["metadata.hop_latency", 32, false],
+        ["_padding_0", 6, false]
+      ]
+    },
+    {
+      "name" : "standard_metadata",
+      "id" : 1,
+      "fields" : [
+        ["ingress_port", 9, false],
+        ["egress_spec", 9, false],
+        ["egress_port", 9, false],
+        ["instance_type", 32, false],
+        ["packet_length", 32, false],
+        ["enq_timestamp", 32, false],
+        ["enq_qdepth", 19, false],
+        ["deq_timedelta", 32, false],
+        ["deq_qdepth", 19, false],
+        ["ingress_global_timestamp", 48, false],
+        ["egress_global_timestamp", 48, false],
+        ["mcast_grp", 16, false],
+        ["egress_rid", 16, false],
+        ["checksum_error", 1, false],
+        ["parser_error", 32, false],
+        ["priority", 3, false],
+        ["_padding", 3, false]
+      ]
+    },
+    {
+      "name" : "ethernet_t",
+      "id" : 2,
+      "fields" : [
+        ["dstAddr", 48, false],
+        ["srcAddr", 48, false],
+        ["etherType", 16, false]
+      ]
+    },
+    {
+      "name" : "ipv4_t",
+      "id" : 3,
+      "fields" : [
+        ["version", 4, false],
+        ["ihl", 4, false],
+        ["ctrl", 4, false],
+        ["dscp", 4, false],
+        ["totalLen", 16, false],
+        ["identification", 16, false],
+        ["flags", 3, false],
+        ["fragOffset", 13, false],
+        ["ttl", 8, false],
+        ["protocol", 8, false],
+        ["hdrChecksum", 16, false],
+        ["srcAddr", 32, false],
+        ["dstAddr", 32, false]
+      ]
+    },
+    {
+      "name" : "qint_info_t",
+      "id" : 4,
+      "fields" : [
+        ["num_hop", 6, false],
+        ["hop_space", 2, false]
+      ]
+    },
+    {
+      "name" : "qint_t",
+      "id" : 5,
+      "fields" : [
+        ["qint_data", 32, false]
+      ]
+    }
+  ],
+  "headers" : [
+    {
+      "name" : "scalars",
+      "id" : 0,
+      "header_type" : "scalars_0",
+      "metadata" : true,
+      "pi_omit" : true
+    },
+    {
+      "name" : "standard_metadata",
+      "id" : 1,
+      "header_type" : "standard_metadata",
+      "metadata" : true,
+      "pi_omit" : true
+    },
+    {
+      "name" : "ethernet",
+      "id" : 2,
+      "header_type" : "ethernet_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "ipv4",
+      "id" : 3,
+      "header_type" : "ipv4_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "qint_info",
+      "id" : 4,
+      "header_type" : "qint_info_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "qint_hop_1",
+      "id" : 5,
+      "header_type" : "qint_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "qint_hop_2",
+      "id" : 6,
+      "header_type" : "qint_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "qint_hop_3",
+      "id" : 7,
+      "header_type" : "qint_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "qint_hop_4",
+      "id" : 8,
+      "header_type" : "qint_t",
+      "metadata" : false,
+      "pi_omit" : true
+    }
+  ],
+  "header_stacks" : [],
+  "header_union_types" : [],
+  "header_unions" : [],
+  "header_union_stacks" : [],
+  "field_lists" : [],
+  "errors" : [
+    ["NoError", 0],
+    ["PacketTooShort", 1],
+    ["NoMatch", 2],
+    ["StackOutOfBounds", 3],
+    ["HeaderTooShort", 4],
+    ["ParserTimeout", 5],
+    ["ParserInvalidArgument", 6]
+  ],
+  "enums" : [],
+  "parsers" : [
+    {
+      "name" : "parser",
+      "id" : 0,
+      "init_state" : "start",
+      "parse_states" : [
+        {
+          "name" : "start",
+          "id" : 0,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "ethernet"
+                }
+              ],
+              "op" : "extract"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "ipv4"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x08",
+              "mask" : null,
+              "next_state" : "qint"
+            },
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["ipv4", "dscp"]
+            }
+          ]
+        },
+        {
+          "name" : "qint",
+          "id" : 1,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "qint_info"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x00",
+              "mask" : null,
+              "next_state" : "qint_hop_1"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x01",
+              "mask" : null,
+              "next_state" : "qint_hop_2"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x02",
+              "mask" : null,
+              "next_state" : "qint_hop_3"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x03",
+              "mask" : null,
+              "next_state" : "qint_hop_4"
+            },
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["qint_info", "hop_space"]
+            }
+          ]
+        },
+        {
+          "name" : "qint_hop_1",
+          "id" : 2,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "qint_hop_1"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "qint_hop_2",
+          "id" : 3,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "qint_hop_1"
+                }
+              ],
+              "op" : "extract"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "qint_hop_2"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "qint_hop_3",
+          "id" : 4,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "qint_hop_1"
+                }
+              ],
+              "op" : "extract"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "qint_hop_2"
+                }
+              ],
+              "op" : "extract"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "qint_hop_3"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "qint_hop_4",
+          "id" : 5,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "qint_hop_1"
+                }
+              ],
+              "op" : "extract"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "qint_hop_2"
+                }
+              ],
+              "op" : "extract"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "qint_hop_3"
+                }
+              ],
+              "op" : "extract"
+            },
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "qint_hop_4"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : []
+        }
+      ]
+    }
+  ],
+  "parse_vsets" : [],
+  "deparsers" : [
+    {
+      "name" : "deparser",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/parser.p4",
+        "line" : 54,
+        "column" : 8,
+        "source_fragment" : "MyDeparser"
+      },
+      "order" : ["ethernet", "ipv4", "qint_info", "qint_hop_1", "qint_hop_2", "qint_hop_3", "qint_hop_4"],
+      "primitives" : []
+    }
+  ],
+  "meter_arrays" : [],
+  "counter_arrays" : [],
+  "register_arrays" : [
+    {
+      "name" : "MyEgress.encoding_info_hop",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+        "line" : 35,
+        "column" : 26,
+        "source_fragment" : "encoding_info_hop"
+      },
+      "size" : 40000,
+      "bitwidth" : 32
+    }
+  ],
+  "calculations" : [],
+  "learn_lists" : [],
+  "actions" : [
+    {
+      "name" : "NoAction",
+      "id" : 0,
+      "runtime_data" : [],
+      "primitives" : []
+    },
+    {
+      "name" : "NoAction",
+      "id" : 1,
+      "runtime_data" : [],
+      "primitives" : []
+    },
+    {
+      "name" : "NoAction",
+      "id" : 2,
+      "runtime_data" : [],
+      "primitives" : []
+    },
+    {
+      "name" : "NoAction",
+      "id" : 3,
+      "runtime_data" : [],
+      "primitives" : []
+    },
+    {
+      "name" : "MyIngress.int_set_source",
+      "id" : 4,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata.source"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "b2d",
+                  "left" : null,
+                  "right" : {
+                    "type" : "bool",
+                    "value" : true
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/ingress_action.p4",
+            "line" : 2,
+            "column" : 1,
+            "source_fragment" : "meta.source = true"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ipv4", "dscp"]
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x08"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/ingress_action.p4",
+            "line" : 3,
+            "column" : 1,
+            "source_fragment" : "hdr.ipv4.dscp = 0x8"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ipv4", "totalLen"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["ipv4", "totalLen"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x0004"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/ingress_action.p4",
+            "line" : 4,
+            "column" : 1,
+            "source_fragment" : "hdr.ipv4.totalLen = hdr.ipv4.totalLen + 4"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.set_switch_id",
+      "id" : 5,
+      "runtime_data" : [
+        {
+          "name" : "switch_id",
+          "bitwidth" : 32
+        }
+      ],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata.switch_id"]
+            },
+            {
+              "type" : "runtime_data",
+              "value" : 0
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/ingress_action.p4",
+            "line" : 8,
+            "column" : 1,
+            "source_fragment" : "meta.switch_id = switch_id"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.valid_space",
+      "id" : 6,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "add_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "qint_info"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/ingress_action.p4",
+            "line" : 12,
+            "column" : 1,
+            "source_fragment" : "hdr.qint_info.setValid()"
+          }
+        },
+        {
+          "op" : "add_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "qint_hop_1"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/ingress_action.p4",
+            "line" : 13,
+            "column" : 1,
+            "source_fragment" : "hdr.qint_hop_1.setValid()"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ipv4", "totalLen"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["ipv4", "totalLen"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x0005"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/ingress_action.p4",
+            "line" : 14,
+            "column" : 1,
+            "source_fragment" : "hdr.ipv4.totalLen = hdr.ipv4.totalLen + 5"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.set_egress_port",
+      "id" : 7,
+      "runtime_data" : [
+        {
+          "name" : "port",
+          "bitwidth" : 9
+        }
+      ],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["standard_metadata", "egress_spec"]
+            },
+            {
+              "type" : "runtime_data",
+              "value" : 0
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/ingress_action.p4",
+            "line" : 18,
+            "column" : 1,
+            "source_fragment" : "standard_metadata.egress_spec = port"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ipv4", "ttl"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["ipv4", "ttl"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0xff"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/ingress_action.p4",
+            "line" : 19,
+            "column" : 1,
+            "source_fragment" : "hdr.ipv4.ttl=hdr.ipv4.ttl-1"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "NoAction",
+      "id" : 8,
+      "runtime_data" : [],
+      "primitives" : []
+    },
+    {
+      "name" : "NoAction",
+      "id" : 9,
+      "runtime_data" : [],
+      "primitives" : []
+    },
+    {
+      "name" : "MyEgress.encoding_hop",
+      "id" : 10,
+      "runtime_data" : [
+        {
+          "name" : "index",
+          "bitwidth" : 32
+        }
+      ],
+      "primitives" : [
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "encoding_bit_hop_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "MyEgress.encoding_info_hop"
+            },
+            {
+              "type" : "runtime_data",
+              "value" : 0
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_action.p4",
+            "line" : 2,
+            "column" : 4,
+            "source_fragment" : "encoding_info_hop.read(encoding_bit_hop, index)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "local",
+                        "value" : 0
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_action.p4",
+            "line" : 3,
+            "column" : 47,
+            "source_fragment" : "index+1"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "encoding_level_hop_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "MyEgress.encoding_info_hop"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_action.p4",
+            "line" : 3,
+            "column" : 4,
+            "source_fragment" : "encoding_info_hop.read(encoding_level_hop, index+1)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["qint_info", "num_hop"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["qint_info", "num_hop"]
+                      },
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "expression",
+                            "value" : {
+                              "op" : "&",
+                              "left" : {
+                                "type" : "field",
+                                "value" : ["scalars", "encoding_level_hop_0"]
+                              },
+                              "right" : {
+                                "type" : "hexstr",
+                                "value" : "0x0000003f"
+                              }
+                            }
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0x3f"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0x3f"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_action.p4",
+            "line" : 4,
+            "column" : 4,
+            "source_fragment" : "hdr.qint_info.num_hop = hdr.qint_info.num_hop + (bit<6>) encoding_level_hop"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "cond"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "b2d",
+                  "left" : null,
+                  "right" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : ">",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["qint_info", "num_hop"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x20"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["qint_info", "hop_space"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "?",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "&",
+                      "left" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "+",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["qint_info", "hop_space"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0x01"
+                          }
+                        }
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x03"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "field",
+                    "value" : ["qint_info", "hop_space"]
+                  },
+                  "cond" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : ">",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["qint_info", "num_hop"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x20"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["qint_info", "num_hop"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "?",
+                  "left" : {
+                    "type" : "hexstr",
+                    "value" : "0x00"
+                  },
+                  "right" : {
+                    "type" : "field",
+                    "value" : ["qint_info", "num_hop"]
+                  },
+                  "cond" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : ">",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["qint_info", "num_hop"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x20"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata.check_space_hop"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "b2d",
+                  "left" : null,
+                  "right" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "?",
+                      "left" : {
+                        "type" : "bool",
+                        "value" : true
+                      },
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "d2b",
+                          "left" : null,
+                          "right" : {
+                            "type" : "field",
+                            "value" : ["scalars", "metadata.check_space_hop"]
+                          }
+                        }
+                      },
+                      "cond" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "d2b",
+                          "left" : null,
+                          "right" : {
+                            "type" : "field",
+                            "value" : ["scalars", "cond"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name" : "MyEgress.set_hop1",
+      "id" : 11,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["qint_hop_1", "qint_data"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "<<",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["qint_hop_1", "qint_data"]
+                      },
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "expression",
+                            "value" : {
+                              "op" : "&",
+                              "left" : {
+                                "type" : "field",
+                                "value" : ["scalars", "encoding_level_hop_0"]
+                              },
+                              "right" : {
+                                "type" : "hexstr",
+                                "value" : "0x000000ff"
+                              }
+                            }
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xff"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_action.p4",
+            "line" : 18,
+            "column" : 19,
+            "source_fragment" : "hdr.qint_hop_1.qint_data = hdr.qint_hop_1.qint_data << ((bit<8>) encoding_level_hop)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["qint_hop_1", "qint_data"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["qint_hop_1", "qint_data"]
+                      },
+                      "right" : {
+                        "type" : "field",
+                        "value" : ["scalars", "encoding_bit_hop_0"]
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_action.p4",
+            "line" : 18,
+            "column" : 105,
+            "source_fragment" : "hdr.qint_hop_1.qint_data = hdr.qint_hop_1.qint_data + encoding_bit_hop"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyEgress.set_hop2",
+      "id" : 12,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["qint_hop_2", "qint_data"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "<<",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["qint_hop_2", "qint_data"]
+                      },
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "expression",
+                            "value" : {
+                              "op" : "&",
+                              "left" : {
+                                "type" : "field",
+                                "value" : ["scalars", "encoding_level_hop_0"]
+                              },
+                              "right" : {
+                                "type" : "hexstr",
+                                "value" : "0x000000ff"
+                              }
+                            }
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xff"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_action.p4",
+            "line" : 19,
+            "column" : 19,
+            "source_fragment" : "hdr.qint_hop_2.qint_data = hdr.qint_hop_2.qint_data << ((bit<8>) encoding_level_hop)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["qint_hop_2", "qint_data"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["qint_hop_2", "qint_data"]
+                      },
+                      "right" : {
+                        "type" : "field",
+                        "value" : ["scalars", "encoding_bit_hop_0"]
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_action.p4",
+            "line" : 19,
+            "column" : 105,
+            "source_fragment" : "hdr.qint_hop_2.qint_data = hdr.qint_hop_2.qint_data + encoding_bit_hop"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyEgress.set_hop3",
+      "id" : 13,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["qint_hop_3", "qint_data"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "<<",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["qint_hop_3", "qint_data"]
+                      },
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "expression",
+                            "value" : {
+                              "op" : "&",
+                              "left" : {
+                                "type" : "field",
+                                "value" : ["scalars", "encoding_level_hop_0"]
+                              },
+                              "right" : {
+                                "type" : "hexstr",
+                                "value" : "0x000000ff"
+                              }
+                            }
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xff"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_action.p4",
+            "line" : 20,
+            "column" : 19,
+            "source_fragment" : "hdr.qint_hop_3.qint_data = hdr.qint_hop_3.qint_data << ((bit<8>) encoding_level_hop)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["qint_hop_3", "qint_data"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["qint_hop_3", "qint_data"]
+                      },
+                      "right" : {
+                        "type" : "field",
+                        "value" : ["scalars", "encoding_bit_hop_0"]
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_action.p4",
+            "line" : 20,
+            "column" : 105,
+            "source_fragment" : "hdr.qint_hop_3.qint_data = hdr.qint_hop_3.qint_data + encoding_bit_hop"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyEgress.set_hop4",
+      "id" : 14,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["qint_hop_4", "qint_data"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "<<",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["qint_hop_4", "qint_data"]
+                      },
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "expression",
+                            "value" : {
+                              "op" : "&",
+                              "left" : {
+                                "type" : "field",
+                                "value" : ["scalars", "encoding_level_hop_0"]
+                              },
+                              "right" : {
+                                "type" : "hexstr",
+                                "value" : "0x000000ff"
+                              }
+                            }
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xff"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_action.p4",
+            "line" : 21,
+            "column" : 19,
+            "source_fragment" : "hdr.qint_hop_4.qint_data = hdr.qint_hop_4.qint_data << ((bit<8>) encoding_level_hop)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["qint_hop_4", "qint_data"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["qint_hop_4", "qint_data"]
+                      },
+                      "right" : {
+                        "type" : "field",
+                        "value" : ["scalars", "encoding_bit_hop_0"]
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_action.p4",
+            "line" : 21,
+            "column" : 105,
+            "source_fragment" : "hdr.qint_hop_4.qint_data = hdr.qint_hop_4.qint_data + encoding_bit_hop"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "qint43",
+      "id" : 15,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata.check_hop"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "b2d",
+                  "left" : null,
+                  "right" : {
+                    "type" : "bool",
+                    "value" : false
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 43,
+            "column" : 8,
+            "source_fragment" : "meta.check_hop = false"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata.check_space_hop"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "b2d",
+                  "left" : null,
+                  "right" : {
+                    "type" : "bool",
+                    "value" : false
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 44,
+            "column" : 8,
+            "source_fragment" : "meta.check_space_hop = false"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "qint49",
+      "id" : 16,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "add_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "qint_hop_2"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 49,
+            "column" : 12,
+            "source_fragment" : "hdr.qint_hop_2.setValid()"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ipv4", "totalLen"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["ipv4", "totalLen"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x0004"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 50,
+            "column" : 3,
+            "source_fragment" : "hdr.ipv4.totalLen = hdr.ipv4.totalLen + 4"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "qint53",
+      "id" : 17,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "add_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "qint_hop_3"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 53,
+            "column" : 12,
+            "source_fragment" : "hdr.qint_hop_3.setValid()"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ipv4", "totalLen"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["ipv4", "totalLen"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x0004"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 54,
+            "column" : 3,
+            "source_fragment" : "hdr.ipv4.totalLen = hdr.ipv4.totalLen + 4"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "qint57",
+      "id" : 18,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "add_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "qint_hop_4"
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 57,
+            "column" : 12,
+            "source_fragment" : "hdr.qint_hop_4.setValid()"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ipv4", "totalLen"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["ipv4", "totalLen"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x0004"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 58,
+            "column" : 3,
+            "source_fragment" : "hdr.ipv4.totalLen = hdr.ipv4.totalLen + 4"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "qint60",
+      "id" : 19,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata.space_hop"]
+            },
+            {
+              "type" : "field",
+              "value" : ["qint_info", "hop_space"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 60,
+            "column" : 2,
+            "source_fragment" : "meta.space_hop = hdr.qint_info.hop_space"
+          }
+        }
+      ]
+    }
+  ],
+  "pipelines" : [
+    {
+      "name" : "ingress",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+        "line" : 14,
+        "column" : 8,
+        "source_fragment" : "MyIngress"
+      },
+      "init_table" : "MyIngress.tb_set_source",
+      "tables" : [
+        {
+          "name" : "MyIngress.tb_set_source",
+          "id" : 0,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/ingress_table.p4",
+            "line" : 1,
+            "column" : 6,
+            "source_fragment" : "tb_set_source"
+          },
+          "key" : [
+            {
+              "match_type" : "exact",
+              "name" : "hdr.ipv4.dscp",
+              "target" : ["ipv4", "dscp"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [4, 0],
+          "actions" : ["MyIngress.int_set_source", "NoAction"],
+          "base_default_next" : "MyIngress.tb_set_switch_id",
+          "next_tables" : {
+            "MyIngress.int_set_source" : "MyIngress.tb_set_switch_id",
+            "NoAction" : "MyIngress.tb_set_switch_id"
+          },
+          "default_entry" : {
+            "action_id" : 0,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "MyIngress.tb_set_switch_id",
+          "id" : 1,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/ingress_table.p4",
+            "line" : 12,
+            "column" : 6,
+            "source_fragment" : "tb_set_switch_id"
+          },
+          "key" : [
+            {
+              "match_type" : "exact",
+              "name" : "hdr.ipv4.version",
+              "target" : ["ipv4", "version"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [5, 1],
+          "actions" : ["MyIngress.set_switch_id", "NoAction"],
+          "base_default_next" : "node_4",
+          "next_tables" : {
+            "MyIngress.set_switch_id" : "node_4",
+            "NoAction" : "node_4"
+          },
+          "default_entry" : {
+            "action_id" : 1,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "MyIngress.tb_valid_space",
+          "id" : 2,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/ingress_table.p4",
+            "line" : 23,
+            "column" : 6,
+            "source_fragment" : "tb_valid_space"
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [6, 2],
+          "actions" : ["MyIngress.valid_space", "NoAction"],
+          "base_default_next" : "MyIngress.tb_forward",
+          "next_tables" : {
+            "MyIngress.valid_space" : "MyIngress.tb_forward",
+            "NoAction" : "MyIngress.tb_forward"
+          },
+          "default_entry" : {
+            "action_id" : 6,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "MyIngress.tb_forward",
+          "id" : 3,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/ingress_table.p4",
+            "line" : 31,
+            "column" : 6,
+            "source_fragment" : "tb_forward"
+          },
+          "key" : [
+            {
+              "match_type" : "exact",
+              "name" : "hdr.ipv4.dstAddr",
+              "target" : ["ipv4", "dstAddr"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [7, 3],
+          "actions" : ["MyIngress.set_egress_port", "NoAction"],
+          "base_default_next" : null,
+          "next_tables" : {
+            "MyIngress.set_egress_port" : null,
+            "NoAction" : null
+          },
+          "default_entry" : {
+            "action_id" : 3,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        }
+      ],
+      "action_profiles" : [],
+      "conditionals" : [
+        {
+          "name" : "node_4",
+          "id" : 0,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 24,
+            "column" : 6,
+            "source_fragment" : "meta.source"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "d2b",
+              "left" : null,
+              "right" : {
+                "type" : "field",
+                "value" : ["scalars", "metadata.source"]
+              }
+            }
+          },
+          "true_next" : "MyIngress.tb_valid_space",
+          "false_next" : "MyIngress.tb_forward"
+        }
+      ]
+    },
+    {
+      "name" : "egress",
+      "id" : 1,
+      "source_info" : {
+        "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+        "line" : 31,
+        "column" : 8,
+        "source_fragment" : "MyEgress"
+      },
+      "init_table" : "tbl_qint43",
+      "tables" : [
+        {
+          "name" : "tbl_qint43",
+          "id" : 4,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 43,
+            "column" : 23,
+            "source_fragment" : "= false; ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [15],
+          "actions" : ["qint43"],
+          "base_default_next" : "MyEgress.tb_encoding_hop",
+          "next_tables" : {
+            "qint43" : "MyEgress.tb_encoding_hop"
+          },
+          "default_entry" : {
+            "action_id" : 15,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "MyEgress.tb_encoding_hop",
+          "id" : 5,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_table.p4",
+            "line" : 1,
+            "column" : 6,
+            "source_fragment" : "tb_encoding_hop"
+          },
+          "key" : [
+            {
+              "match_type" : "range",
+              "name" : "meta.hop_latency",
+              "target" : ["scalars", "metadata.hop_latency"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "range",
+          "type" : "simple",
+          "max_size" : 100000,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [10, 8],
+          "actions" : ["MyEgress.encoding_hop", "NoAction"],
+          "base_default_next" : "node_11",
+          "next_tables" : {
+            "MyEgress.encoding_hop" : "node_11",
+            "NoAction" : "node_11"
+          },
+          "default_entry" : {
+            "action_id" : 8,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_qint49",
+          "id" : 6,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 49,
+            "column" : 12,
+            "source_fragment" : "hdr.qint_hop_2.setValid(); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [16],
+          "actions" : ["qint49"],
+          "base_default_next" : "node_13",
+          "next_tables" : {
+            "qint49" : "node_13"
+          },
+          "default_entry" : {
+            "action_id" : 16,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_qint53",
+          "id" : 7,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 53,
+            "column" : 12,
+            "source_fragment" : "hdr.qint_hop_3.setValid(); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [17],
+          "actions" : ["qint53"],
+          "base_default_next" : "node_15",
+          "next_tables" : {
+            "qint53" : "node_15"
+          },
+          "default_entry" : {
+            "action_id" : 17,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_qint57",
+          "id" : 8,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 57,
+            "column" : 12,
+            "source_fragment" : "hdr.qint_hop_4.setValid(); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [18],
+          "actions" : ["qint57"],
+          "base_default_next" : "tbl_qint60",
+          "next_tables" : {
+            "qint57" : "tbl_qint60"
+          },
+          "default_entry" : {
+            "action_id" : 18,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_qint60",
+          "id" : 9,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 60,
+            "column" : 17,
+            "source_fragment" : "="
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [19],
+          "actions" : ["qint60"],
+          "base_default_next" : "MyEgress.tb_set_index_hop",
+          "next_tables" : {
+            "qint60" : "MyEgress.tb_set_index_hop"
+          },
+          "default_entry" : {
+            "action_id" : 19,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "MyEgress.tb_set_index_hop",
+          "id" : 10,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_table.p4",
+            "line" : 13,
+            "column" : 6,
+            "source_fragment" : "tb_set_index_hop"
+          },
+          "key" : [
+            {
+              "match_type" : "exact",
+              "name" : "meta.space_hop",
+              "target" : ["qint_info", "hop_space"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 4,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [11, 12, 13, 14, 9],
+          "actions" : ["MyEgress.set_hop1", "MyEgress.set_hop2", "MyEgress.set_hop3", "MyEgress.set_hop4", "NoAction"],
+          "base_default_next" : null,
+          "next_tables" : {
+            "MyEgress.set_hop1" : null,
+            "MyEgress.set_hop2" : null,
+            "MyEgress.set_hop3" : null,
+            "MyEgress.set_hop4" : null,
+            "NoAction" : null
+          },
+          "default_entry" : {
+            "action_id" : 9,
+            "action_const" : false,
+            "action_data" : [],
+            "action_entry_const" : false
+          },
+          "entries" : [
+            {
+              "source_info" : {
+                "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_table.p4",
+                "line" : 24,
+                "column" : 8,
+                "source_fragment" : "(0x0) : set_hop1()"
+              },
+              "match_key" : [
+                {
+                  "match_type" : "exact",
+                  "key" : "0x00"
+                }
+              ],
+              "action_entry" : {
+                "action_id" : 11,
+                "action_data" : []
+              },
+              "priority" : 1
+            },
+            {
+              "source_info" : {
+                "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_table.p4",
+                "line" : 25,
+                "column" : 8,
+                "source_fragment" : "(0x1) : set_hop2()"
+              },
+              "match_key" : [
+                {
+                  "match_type" : "exact",
+                  "key" : "0x01"
+                }
+              ],
+              "action_entry" : {
+                "action_id" : 12,
+                "action_data" : []
+              },
+              "priority" : 2
+            },
+            {
+              "source_info" : {
+                "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_table.p4",
+                "line" : 26,
+                "column" : 8,
+                "source_fragment" : "(0x2) : set_hop3()"
+              },
+              "match_key" : [
+                {
+                  "match_type" : "exact",
+                  "key" : "0x02"
+                }
+              ],
+              "action_entry" : {
+                "action_id" : 13,
+                "action_data" : []
+              },
+              "priority" : 3
+            },
+            {
+              "source_info" : {
+                "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/include/egress_table.p4",
+                "line" : 27,
+                "column" : 8,
+                "source_fragment" : "(0x3) : set_hop4()"
+              },
+              "match_key" : [
+                {
+                  "match_type" : "exact",
+                  "key" : "0x03"
+                }
+              ],
+              "action_entry" : {
+                "action_id" : 14,
+                "action_data" : []
+              },
+              "priority" : 4
+            }
+          ]
+        }
+      ],
+      "action_profiles" : [],
+      "conditionals" : [
+        {
+          "name" : "node_11",
+          "id" : 1,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 48,
+            "column" : 12,
+            "source_fragment" : "meta.check_space_hop && hdr.qint_info.hop_space == 1"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "and",
+              "left" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "d2b",
+                  "left" : null,
+                  "right" : {
+                    "type" : "field",
+                    "value" : ["scalars", "metadata.check_space_hop"]
+                  }
+                }
+              },
+              "right" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "==",
+                  "left" : {
+                    "type" : "field",
+                    "value" : ["qint_info", "hop_space"]
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0x01"
+                  }
+                }
+              }
+            }
+          },
+          "true_next" : "tbl_qint49",
+          "false_next" : "node_13"
+        },
+        {
+          "name" : "node_13",
+          "id" : 2,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 52,
+            "column" : 12,
+            "source_fragment" : "meta.check_space_hop && hdr.qint_info.hop_space == 2"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "and",
+              "left" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "d2b",
+                  "left" : null,
+                  "right" : {
+                    "type" : "field",
+                    "value" : ["scalars", "metadata.check_space_hop"]
+                  }
+                }
+              },
+              "right" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "==",
+                  "left" : {
+                    "type" : "field",
+                    "value" : ["qint_info", "hop_space"]
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0x02"
+                  }
+                }
+              }
+            }
+          },
+          "true_next" : "tbl_qint53",
+          "false_next" : "node_15"
+        },
+        {
+          "name" : "node_15",
+          "id" : 3,
+          "source_info" : {
+            "filename" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4",
+            "line" : 56,
+            "column" : 6,
+            "source_fragment" : "meta.check_space_hop && hdr.qint_info.hop_space == 3"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "and",
+              "left" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "d2b",
+                  "left" : null,
+                  "right" : {
+                    "type" : "field",
+                    "value" : ["scalars", "metadata.check_space_hop"]
+                  }
+                }
+              },
+              "right" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "==",
+                  "left" : {
+                    "type" : "field",
+                    "value" : ["qint_info", "hop_space"]
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0x03"
+                  }
+                }
+              }
+            }
+          },
+          "true_next" : "tbl_qint57",
+          "false_next" : "tbl_qint60"
+        }
+      ]
+    }
+  ],
+  "checksums" : [],
+  "force_arith" : [],
+  "extern_instances" : [],
+  "field_aliases" : [
+    [
+      "queueing_metadata.enq_timestamp",
+      ["standard_metadata", "enq_timestamp"]
+    ],
+    [
+      "queueing_metadata.enq_qdepth",
+      ["standard_metadata", "enq_qdepth"]
+    ],
+    [
+      "queueing_metadata.deq_timedelta",
+      ["standard_metadata", "deq_timedelta"]
+    ],
+    [
+      "queueing_metadata.deq_qdepth",
+      ["standard_metadata", "deq_qdepth"]
+    ],
+    [
+      "intrinsic_metadata.ingress_global_timestamp",
+      ["standard_metadata", "ingress_global_timestamp"]
+    ],
+    [
+      "intrinsic_metadata.egress_global_timestamp",
+      ["standard_metadata", "egress_global_timestamp"]
+    ],
+    [
+      "intrinsic_metadata.mcast_grp",
+      ["standard_metadata", "mcast_grp"]
+    ],
+    [
+      "intrinsic_metadata.egress_rid",
+      ["standard_metadata", "egress_rid"]
+    ],
+    [
+      "intrinsic_metadata.priority",
+      ["standard_metadata", "priority"]
+    ]
+  ],
+  "program" : "/home/mncgpu5/chanbin/QINT_final/p4src/qint.p4i",
+  "__meta__" : {
+    "version" : [2, 23],
+    "compiler" : "https://github.com/p4lang/p4c"
+  }
+}
