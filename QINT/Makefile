@@ -5,7 +5,7 @@ P4SRC_DIR	=	p4src
 
 ifndef P4SRC_FILE
 
-P4SRC_FILE = /home/mncgpu5/chanbin/QINT_final/p4src/qint.p4
+P4SRC_FILE = ~/QINT/p4src/qint.p4
 endif
 
 all: run
