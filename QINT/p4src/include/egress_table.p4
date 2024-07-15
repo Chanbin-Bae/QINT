@@ -1,4 +1,4 @@
-table tb_encoding_hop {
+table tb_decision_hop {
     key = {
         meta.hop_latency : range;
     }
@@ -10,7 +10,7 @@ table tb_encoding_hop {
     size = 40000;
 }
 
-table tb_set_index_hop {
+table tb_insert_hop {
     key = {
         meta.space_hop : exact;
     }
