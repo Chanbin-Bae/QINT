@@ -12,7 +12,7 @@ header ipv4_t {
 		bit<4>    version;
 		bit<4>    ihl;
 		bit<4>    ctrl;
-        bit<4>    dscp;
+	        bit<4>    dscp;
 		bit<16>   totalLen;
 		bit<16>   identification;
 		bit<3>    flags;
@@ -34,8 +34,8 @@ header qint_t{
 }
 
 struct headers {
-	ethernet_t   ethernet;
-	ipv4_t       ipv4;
+    ethernet_t   ethernet;
+    ipv4_t       ipv4;
     qint_info_t qint_info;
     qint_t qint_hop_1;
     qint_t qint_hop_2;
@@ -48,7 +48,7 @@ struct metadata {
     bool source;
 
     bit<32> encoding_bit_hop;
-	bit<32> encoding_level_hop;
+    bit<32> encoding_level_hop;
     bool check_hop;
     bool check_space_hop;
     bit<2> space_hop;
