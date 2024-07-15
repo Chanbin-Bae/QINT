@@ -43,7 +43,7 @@ control MyEgress(inout headers hdr,
         meta.check_hop = false;
         meta.check_space_hop = false;
 
-	tb_encoding_hop.apply();
+	tb_decision_hop.apply();
 
         if (meta.check_space_hop && hdr.qint_info.hop_space == 1){
             hdr.qint_hop_2.setValid();
@@ -59,7 +59,7 @@ control MyEgress(inout headers hdr,
         }
 	meta.space_hop = hdr.qint_info.hop_space;
 
-        tb_set_index_hop.apply(); // stack encoded bits 
+        tb_insert_hop.apply(); // stack encoded bits 
 	}
 }
 
