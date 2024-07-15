@@ -69,6 +69,7 @@ class qint_hop_4(Packet):
 #################################################################################################
 ##########                               Packet Creation                               ##########
 #################################################################################################
+
 def create_packet(source_ip, destination_ip, flow_size):
     global src_port, dst_port
     packet = Ether(src=get_if_hwaddr(iface), dst='ff:ff:ff:ff:ff:ff') / IP(src=source_ip, dst=destination_ip, tos=3) 
@@ -126,7 +127,7 @@ def generate_packet_distribution():
             source_ip = row[0]
             destination_ip = row[1]
             flow_size = int(row[2])
-            
+            packets = []
             # 패킷 생성 및 리스트에 추가
             if source_ip == src_ip:
                 if flow_size > 1000:
@@ -240,7 +241,7 @@ def main():
     ifaces = [i for i in os.listdir('/sys/class/net/') if 'eth' in i]
     iface = ifaces[0]
     
-    file_name = "/home/mncgpu5/chanbin/QINT_final/result/test_"+iface+"_"+str(args.topo)+".txt"
+    file_name = "~/QINT/result/test_"+iface+"_"+str(args.topo)+".txt"
     sys.stdout = open(file_name,'w')
 
     receive_thread1 = threading.Thread(target=receive_packet_Q1, args=())
