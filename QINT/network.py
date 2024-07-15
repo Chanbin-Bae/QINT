@@ -135,7 +135,7 @@ def config_network(p4, topo):
 
     return net
 
-# Parser for P4 program and number of sending packets
+# Parser
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--p4', help='p4 src file.', type=str, required=False, default='p4src/int_mri.p4')
