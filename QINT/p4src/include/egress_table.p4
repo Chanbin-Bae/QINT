@@ -3,11 +3,11 @@ table tb_encoding_hop {
         meta.hop_latency : range;
     }
     actions = {
-		encoding_hop;
+	encoding_hop;
         NoAction();
 	}
     const default_action = NoAction();
-    size = 100000;
+    size = 40000;
 }
 
 table tb_set_index_hop {
