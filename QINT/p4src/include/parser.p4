@@ -4,14 +4,14 @@ parser MyParser(packet_in packet,
                 inout metadata meta,
                 inout standard_metadata_t standard_metadata) {
 
-		state start {
-				packet.extract(hdr.ethernet);
-				packet.extract(hdr.ipv4);
-				transition select (hdr.ipv4.dscp){
-					INT: qint;
-					default: accept;
-				}
+	state start {
+		packet.extract(hdr.ethernet);
+		packet.extract(hdr.ipv4);
+		transition select (hdr.ipv4.dscp){
+			INT: qint;
+			default: accept;
 		}
+	}
         
         state qint {
             packet.extract(hdr.qint_info);
@@ -53,13 +53,13 @@ parser MyParser(packet_in packet,
 
 control MyDeparser(packet_out packet, 
                    in headers hdr) {
-		apply {
-				packet.emit(hdr.ethernet);
-				packet.emit(hdr.ipv4);
+	apply {
+		packet.emit(hdr.ethernet);
+		packet.emit(hdr.ipv4);
                 packet.emit(hdr.qint_info);
                 packet.emit(hdr.qint_hop_1);
                 packet.emit(hdr.qint_hop_2);
                 packet.emit(hdr.qint_hop_3);
                 packet.emit(hdr.qint_hop_4);
-		}
+	}
 }
