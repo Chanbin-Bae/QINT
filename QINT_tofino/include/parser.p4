@@ -24,17 +24,6 @@ parser SwitchIngressParser(packet_in packet,
             }
         }
 
-        // state qint {
-        //     packet.extract(hdr.qint_info_hop);
-        //     transition select (hdr.qint_info_hop.hop_space){
-        //         0 : qint_hop_1;           
-        //         1 : qint_hop_2;
-        //         2 : qint_hop_3;
-        //         3 : qint_hop_4;
-        //         default: accept;
-        //     }
-        // }
-
         state qint_hop_1 {
             packet.extract(hdr.qint_hop_1);
             transition accept;
@@ -107,17 +96,6 @@ parser SwitchEgressParser(packet_in packet,
                 default: accept;
             }
         }
-
-        // state qint {
-        //     packet.extract(hdr.qint_info_hop);
-        //     transition select (hdr.qint_info_hop.hop_space){
-        //         0 : qint_hop_1;           
-        //         1 : qint_hop_2;
-        //         2 : qint_hop_3;
-        //         3 : qint_hop_4;
-        //         default: accept;
-        //     }
-        // }
 
         state qint_hop_1 {
             packet.extract(hdr.qint_hop_1);
