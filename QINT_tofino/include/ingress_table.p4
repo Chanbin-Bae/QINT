@@ -22,14 +22,6 @@ table tb_set_switch_id {
 	size = 1;
 }
 
-// table tb_valid_space {
-// 	actions = {
-// 		valid_space();
-// 		NoAction();
-// 	}
-// 	const default_action = valid_space();
-// }
-
 table tb_forward {
 	key = {
 		// standard_metadata.ingress_port: exact;
