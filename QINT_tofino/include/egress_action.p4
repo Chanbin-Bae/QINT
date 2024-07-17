@@ -9,8 +9,6 @@ action reset_num_hop(){
 }
 
 action update_space_hop() {
-	// hdr.qint_info_hop.hop_space = (bit<2>) update_space.execute((bit<8>) hdr.qint_info_hop.hop_space);
-	// eg_md.meta.check_space_hop = true;
 	hdr.qint_space.space_hop = (bit<2>) update_space.execute((bit<8>) hdr.qint_space.space_hop);
 	eg_md.meta.check_space_hop = true;
 }
