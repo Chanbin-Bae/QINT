@@ -89,6 +89,7 @@ control SwitchEgress(inout headers hdr,
 	tb_shift_hop4.apply();
 
         tb_set_index_hop.apply(); // stack encoded bits 		
+	hdr.local_report_header.setInvalid();
 	}
 }
 
